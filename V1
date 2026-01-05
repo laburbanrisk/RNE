@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Revisor Normativo A.010 | Lab Urban Risk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Oswald', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              blue: '#002855',
+              yellow: '#FFC72C',
+              red: '#DA291C',
+              dark: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+ 
+  <style>
+    /* ESTILOS BASE */
+    body { background-color: #f8fafc; color: #334155; -webkit-font-smoothing: antialiased; }
+    
+    .view-section { display: none; min-height: 100vh; flex-direction: column; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .view-section.active { display: flex; }
+    @keyframes fadeIn { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform: translateY(0);} }
+ 
+    .menu-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .menu-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 40, 85, 0.15); border-color: #DA291C; }
+ 
+    input, select { outline: none; transition: all 0.2s ease; appearance: none; }
+    input:focus, select:focus { border-color: #002855; box-shadow: 0 0 0 4px rgba(0, 40, 85, 0.1); }
+    
+    .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+    /* SVG Styles */
+    .stair-path { transition: d 0.3s ease, fill 0.3s ease; }
+    .dim-line { stroke: #94a3b8; stroke-width: 1; }
+    .dim-text { font-family: 'Inter'; font-size: 10px; fill: #64748b; font-weight: bold; }
+  </style>
+</head>
+<body class="selection:bg-brand-blue selection:text-white">
+ 
+  <div id="view-landing" class="view-section active">
+    <header class="bg-brand-blue relative overflow-hidden pb-12 pt-16 px-6 text-center shadow-xl">
+      <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-red via-brand-yellow to-brand-red"></div>
+      <div class="absolute -top-20 -left-20 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+      
+      <div class="relative z-10 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-bold font-heading text-white mb-2 tracking-wide">
+          VALIDADOR <span class="text-brand-yellow">A.010</span>
+        </h1>
+        <div class="h-1 w-24 bg-brand-red mx-auto mb-6"></div>
+        <p class="text-lg md:text-xl text-blue-100 font-light tracking-[0.2em]">HERRAMIENTA VISUAL PARA ARQUITECTOS</p>
+      </div>
+    </header>
+ 
+    <main class="flex-1 max-w-7xl mx-auto w-full p-6 -mt-8 relative z-20">
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+        
+        <div onclick="switchView('view-escaleras')" class="menu-card bg-white p-8 rounded-2xl shadow-lg border border-slate-100 cursor-pointer flex flex-col items-center text-center h-full group">
+          <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
+            <i class="fa-solid fa-stairs text-3xl text-brand-blue group-hover:text-brand-yellow"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 font-heading mb-3">1. CIRCULACIÓN VERTICAL</h2>
+          <p class="text-sm text-slate-500 leading-relaxed mb-8 flex-1">
+            Validación gráfica de pasos y contrapasos (Art. 23) y anchos normativos según uso.
+          </p>
+          <span class="text-xs font-bold text-brand-blue border-b-2 border-brand-red pb-1 group-hover:border-brand-yellow transition-all">REVISAR DISEÑO <i class="fa-solid fa-arrow-right ml-1"></i></span>
+        </div>
+ 
+        <div onclick="switchView('view-park')" class="menu-card bg-white p-8 rounded-2xl shadow-lg border border-slate-100 cursor-pointer flex flex-col items-center text-center h-full group">
+          <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
+            <i class="fa-solid fa-car text-3xl text-brand-blue group-hover:text-brand-yellow"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 font-heading mb-3">2. ESTACIONAMIENTOS</h2>
+          <p class="text-sm text-slate-500 leading-relaxed mb-8 flex-1">
+            Calculadora de radios de giro y anchos de vía según ángulo (Gráfico D y Art. 53).
+          </p>
+          <span class="text-xs font-bold text-brand-blue border-b-2 border-brand-red pb-1 group-hover:border-brand-yellow transition-all">CALCULAR MANIOBRAS <i class="fa-solid fa-arrow-right ml-1"></i></span>
+        </div>
+
+      </div>
+    </main>
+ 
+    <footer class="bg-white text-slate-400 py-8 text-center border-t border-slate-100 mt-8">
+      <div class="flex justify-center gap-6 mb-4 text-xl">
+         <a href="https://www.instagram.com/laburbanrisk" target="_blank" class="hover:text-[#E1306C] transition"><i class="fa-brands fa-instagram"></i></a>
+         <a href="#" class="hover:text-brand-blue transition"><i class="fa-brands fa-linkedin"></i></a>
+      </div>
+      <p class="font-heading text-sm tracking-wider">BAUJAUS SAC &copy; 2026 | IT - PE</p>
+    </footer>
+  </div>
+ 
+  <div id="view-escaleras" class="view-section bg-slate-50">
+    <nav class="glass-header p-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
+       <div class="flex items-center gap-3 md:gap-4">
+         <div class="bg-brand-blue text-white w-10 h-10 flex items-center justify-center font-bold text-lg rounded-lg shadow-md font-heading flex-shrink-0">1</div>
+         <div>
+           <h2 class="text-brand-blue font-bold text-base md:text-lg font-heading leading-none">ESCALERAS DE EVACUACIÓN</h2>
+           <p class="text-[10px] text-slate-400 font-medium tracking-wide">NORMA A.010 CAP. V</p>
+         </div>
+       </div>
+       <button onclick="goHome()" class="text-slate-500 hover:text-brand-red font-medium text-sm flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition">
+         <i class="fa-solid fa-arrow-left"></i> <span class="hidden md:inline">VOLVER</span>
+       </button>
+    </nav>
+ 
+    <div class="flex-1 w-full max-w-6xl mx-auto p-4 md:p-6 flex flex-col lg:grid lg:grid-cols-12 gap-6 items-start">
+       
+       <div class="w-full lg:col-span-4 bg-white rounded-2xl shadow-xl border border-slate-200 p-6">
+         <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wider mb-6 border-b border-slate-100 pb-2">
+           <i class="fa-solid fa-ruler-combined mr-2"></i> Parámetros de Diseño
+         </h3>
+
+         <div class="space-y-6">
+            <div>
+               <label class="text-xs font-bold text-brand-blue block mb-2 uppercase">Uso de la Edificación</label>
+               <select id="st_uso" onchange="calcStair()" class="w-full p-3 border border-slate-200 rounded-lg text-sm bg-slate-50 font-medium">
+                   <option value="vivienda">Vivienda (Residencial)</option>
+                   <option value="oficina">Oficinas / Comercio</option>
+                   <option value="salud">Salud / Educación / Transporte</option>
+                   <option value="industria">Industria</option>
+               </select>
+               <p class="text-[10px] text-slate-400 mt-1"><i class="fa-solid fa-circle-info"></i> Define dimensiones mínimas (Art. 23).</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+               <div>
+                  <label class="text-xs font-bold text-slate-500 block mb-1">PASO (m)</label>
+                  <input type="number" id="st_paso" value="0.25" step="0.01" oninput="calcStair()" class="w-full p-3 border border-slate-200 rounded-lg text-center font-bold text-slate-700 focus:border-brand-blue">
+               </div>
+               <div>
+                  <label class="text-xs font-bold text-slate-500 block mb-1">CONTRAPASO (m)</label>
+                  <input type="number" id="st_contra" value="0.17" step="0.01" oninput="calcStair()" class="w-full p-3 border border-slate-200 rounded-lg text-center font-bold text-slate-700 focus:border-brand-blue">
+               </div>
+            </div>
+
+            <div>
+               <label class="text-xs font-bold text-brand-blue block mb-2 uppercase">Tipo de Escalera</label>
+               <select id="st_tipo" onchange="calcStair()" class="w-full p-3 border border-slate-200 rounded-lg text-sm bg-slate-50 font-medium">
+                   <option value="integrada">Integrada</option>
+                   <option value="protegida">Protegida (Caja de Escalera)</option>
+               </select>
+            </div>
+            
+            <div class="pt-4 border-t border-slate-100">
+               <div id="st_result" class="bg-green-50 text-green-700 p-4 rounded-xl text-sm font-bold border border-green-200 flex items-start gap-3">
+                  <i class="fa-solid fa-check-circle mt-1"></i>
+                  <span>Diseño Conforme a Norma A.010</span>
+               </div>
+            </div>
+         </div>
+       </div>
+
+       <div class="w-full lg:col-span-8 bg-slate-900 rounded-2xl shadow-2xl overflow-hidden min-h-[500px] relative flex flex-col">
+          <div class="absolute top-4 right-4 z-10 bg-white/10 backdrop-blur px-3 py-1 rounded-full text-xs text-white font-mono border border-white/20">
+             VISTA DE CORTE (ESQUEMÁTICO)
+          </div>
+          
+          <div class="flex-1 flex items-center justify-center p-8">
+             <svg id="stair_svg" viewBox="0 0 400 300" class="w-full h-full max-h-[400px]">
+                <defs>
+                   <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                   </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+                
+                <path id="st_draw" d="M50,250 L100,250 L100,200 L150,200 L150,150 L200,150" fill="none" stroke="#FFC72C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                
+                <line x1="100" y1="260" x2="150" y2="260" stroke="white" stroke-width="1" />
+                <text id="txt_paso" x="125" y="275" text-anchor="middle" fill="white" font-size="12" font-family="monospace">P=0.25</text>
+                
+                <line x1="90" y1="200" x2="90" y2="250" stroke="white" stroke-width="1" />
+                <text id="txt_contra" x="80" y="230" text-anchor="end" fill="white" font-size="12" font-family="monospace">CP=0.17</text>
+
+                <g transform="translate(60, 190) scale(0.3)">
+                   <path d="M20,50 C20,20 50,20 50,50 L50,100 L20,100 Z" fill="#DA291C" opacity="0.8"/>
+                   <circle cx="35" cy="20" r="15" fill="#DA291C" opacity="0.8"/>
+                </g>
+             </svg>
+          </div>
+          
+          <div class="bg-black/40 backdrop-blur-md p-4 text-white text-xs font-mono border-t border-white/10">
+             <div class="grid grid-cols-2 gap-4">
+                <div>
+                   <span class="text-slate-400 block">Norma A.010 Art. 23</span>
+                   <span id="info_req" class="text-brand-yellow">Req: Paso min 0.25m | CP max 0.18m</span>
+                </div>
+                <div class="text-right">
+                   <span class="text-slate-400 block">Estado</span>
+                   <span id="info_status" class="font-bold text-green-400">APROBADO</span>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <div id="view-park" class="view-section bg-slate-100">
+    <nav class="glass-header p-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
+      <div class="flex items-center gap-3 md:gap-4">
+        <div class="bg-brand-blue text-white w-10 h-10 flex items-center justify-center font-bold text-lg rounded-lg shadow-md font-heading flex-shrink-0">2</div>
+        <div>
+          <h2 class="text-brand-blue font-bold text-base md:text-lg font-heading leading-none">CÁLCULO DE ESTACIONAMIENTOS</h2>
+          <p class="text-[10px] text-slate-400 font-medium tracking-wide">NORMA A.010 CAP. X</p>
+        </div>
+      </div>
+      <button onclick="goHome()" class="text-slate-500 hover:text-brand-red font-medium text-sm flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition">
+        <i class="fa-solid fa-arrow-left"></i> <span class="hidden md:inline">VOLVER</span>
+      </button>
+    </nav>
+
+    <div class="flex-1 w-full max-w-5xl mx-auto p-6">
+       <div class="grid md:grid-cols-2 gap-8">
+          
+          <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200">
+             <h3 class="font-bold text-brand-blue mb-4 uppercase">Configuración del Espacio</h3>
+             
+             <div class="space-y-4">
+                <div>
+                   <label class="text-xs font-bold text-slate-500 mb-1 block">TIPO DE USO</label>
+                   <select id="pk_uso" onchange="calcPark()" class="w-full p-3 border border-slate-200 rounded-lg bg-slate-50">
+                      <option value="privado">Privado (Vivienda/Oficina)</option>
+                      <option value="publico">Público (Comercial/Rotación)</option>
+                   </select>
+                </div>
+                
+                <div>
+                   <label class="text-xs font-bold text-slate-500 mb-1 block">DISPOSICIÓN</label>
+                   <select id="pk_disp" onchange="calcPark()" class="w-full p-3 border border-slate-200 rounded-lg bg-slate-50">
+                      <option value="individual">Individual</option>
+                      <option value="contiguo">2 Contiguos</option>
+                      <option value="3mas">3 o más Contiguos</option>
+                      <option value="paralelo">En Paralelo</option>
+                   </select>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-slate-500 mb-1 block">ÁNGULO DE ESTACIONAMIENTO</label>
+                    <input type="range" id="pk_angle" min="0" max="90" step="30" value="90" oninput="calcPark()" class="w-full accent-brand-blue">
+                    <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                       <span>0°</span><span>30°</span><span>45°</span><span>60°</span><span>90°</span>
+                    </div>
+                    <div class="text-center font-bold text-brand-blue mt-2" id="pk_angle_val">90°</div>
+                 </div>
+             </div>
+          </div>
+
+          <div class="bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-700 text-white relative flex flex-col justify-center items-center min-h-[300px]">
+             
+             <div id="pk_canvas" class="relative w-64 h-64 border-2 border-dashed border-slate-600 rounded flex items-center justify-center transition-all duration-500">
+                <div class="absolute inset-0 bg-brand-blue/20 flex items-center justify-center">
+                   <i class="fa-solid fa-car text-4xl text-white/50"></i>
+                </div>
+                
+                <div class="absolute -top-6 w-full text-center text-xs font-mono text-brand-yellow">
+                   Ancho: <span id="res_pk_ancho">2.50</span> m
+                </div>
+                <div class="absolute -left-16 top-1/2 -translate-y-1/2 text-xs font-mono text-brand-yellow -rotate-90">
+                   Largo: <span id="res_pk_largo">5.00</span> m
+                </div>
+             </div>
+
+             <div class="mt-8 w-full bg-white/10 p-4 rounded-lg backdrop-blur">
+                <div class="flex justify-between items-center mb-2">
+                   <span class="text-xs uppercase text-slate-400">Ancho Vía (Maniobra)</span>
+                   <span id="res_pk_via" class="font-bold text-brand-red text-xl">5.40 m</span>
+                </div>
+                <p class="text-[10px] text-slate-400 italic text-right">*Según Gráfico D - Norma A.010</p>
+             </div>
+
+          </div>
+       </div>
+    </div>
+  </div>
+ 
+  <script>
+    /* NAVEGACIÓN */
+    function switchView(id) { 
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); 
+      document.getElementById(id).classList.add('active'); 
+      window.scrollTo(0,0); 
+    }
+    function goHome() { switchView('view-landing'); }
+
+    /* -------------------------------------------------------------------------- */
+    /* MÓDULO 1: ESCALERAS (Art. 23) */
+    /* -------------------------------------------------------------------------- */
+    function calcStair() {
+       const uso = document.getElementById('st_uso').value;
+       const paso = parseFloat(document.getElementById('st_paso').value);
+       const contra = parseFloat(document.getElementById('st_contra').value);
+       const tipo = document.getElementById('st_tipo').value;
+
+       // 1. Obtener Requisitos Normativos (Art. 23 a, b, c) 
+       let minPaso = 0.25;
+       let maxContra = 0.18; // [cite: 382]
+       
+       if(uso === 'vivienda' || uso === 'industria') minPaso = 0.25; // [cite: 375]
+       else if(uso === 'oficina') minPaso = 0.28; // [cite: 377]
+       else if(uso === 'salud') minPaso = 0.30; // [cite: 379]
+
+       // 2. Validación
+       let messages = [];
+       let status = "APROBADO";
+       let color = "text-green-400";
+       let pathColor = "#FFC72C"; // Amarillo Brand
+
+       if(paso < minPaso) {
+          messages.push(`⚠️ Paso insuficiente para ${uso} (Min: ${minPaso}m)`);
+          status = "OBSERVADO";
+          color = "text-brand-red";
+          pathColor = "#DA291C"; // Rojo Brand
+       }
+       if(contra > maxContra) {
+          messages.push(`⚠️ Contrapaso excede máximo (Max: ${maxContra}m)`);
+          status = "OBSERVADO";
+          color = "text-brand-red";
+          pathColor = "#DA291C";
+       }
+       // Validación Art 25: Escalera protegida
+       if(tipo === 'protegida') {
+          messages.push("ℹ️ Requiere muros cortafuego y puertas cierrapuertas (Art. 25)");
+       }
+
+       // 3. Renderizado UI
+       const resDiv = document.getElementById('st_result');
+       const infoReq = document.getElementById('info_req');
+       const infoStatus = document.getElementById('info_status');
+       
+       infoReq.innerText = `Req: Paso min ${minPaso}m | CP max ${maxContra}m`;
+       infoStatus.innerText = status;
+       infoStatus.className = `font-bold ${color}`;
+
+       if(status === "APROBADO") {
+          resDiv.className = "bg-green-50 text-green-700 p-4 rounded-xl text-sm font-bold border border-green-200 flex items-start gap-3";
+          resDiv.innerHTML = `<i class="fa-solid fa-check-circle mt-1"></i><span>Diseño Conforme a Norma A.010</span>`;
+       } else {
+          resDiv.className = "bg-red-50 text-brand-red p-4 rounded-xl text-sm font-bold border border-red-200 flex items-start gap-3";
+          resDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation mt-1"></i><div>${messages.join('<br>')}</div>`;
+       }
+
+       // 4. Actualizar SVG (Dibujo dinámico)
+       // Escalamos valores para que se vean bien en el SVG (Factor 500)
+       const p = paso * 300; 
+       const c = contra * 300; 
+       const startX = 50;
+       const startY = 250;
+       
+       // Dibujamos 3 peldaños
+       const d = `M${startX},${startY} 
+                  L${startX + p},${startY} 
+                  L${startX + p},${startY - c} 
+                  L${startX + p*2},${startY - c} 
+                  L${startX + p*2},${startY - c*2} 
+                  L${startX + p*3},${startY - c*2}`;
+                  
+       const path = document.getElementById('st_draw');
+       path.setAttribute('d', d);
+       path.setAttribute('stroke', pathColor);
+
+       // Actualizar Textos SVG
+       document.getElementById('txt_paso').textContent = `P=${paso.toFixed(2)}`;
+       document.getElementById('txt_contra').textContent = `CP=${contra.toFixed(2)}`;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* MÓDULO 2: ESTACIONAMIENTOS (Art. 54) */
+    /* -------------------------------------------------------------------------- */
+    function calcPark() {
+        const uso = document.getElementById('pk_uso').value;
+        const disp = document.getElementById('pk_disp').value;
+        const angle = document.getElementById('pk_angle').value;
+        
+        document.getElementById('pk_angle_val').innerText = angle + "°";
+
+        // Lógica Cuadro N° 03 y 04 [cite: 1008, 1029]
+        let ancho = 2.50;
+        let largo = 5.00;
+
+        if (uso === 'privado') {
+            if (disp === 'individual') ancho = 2.70;
+            else if (disp === 'contiguo') ancho = 2.50; // 2 contiguos
+            else if (disp === '3mas') ancho = 2.40;
+            else if (disp === 'paralelo') { ancho = 2.40; largo = 5.40; } // [cite: 1011]
+        } else { // Público
+            if (disp === 'individual') ancho = 3.00;
+            else if (disp === 'contiguo') ancho = 2.60;
+            else if (disp === '3mas') ancho = 2.50;
+            else if (disp === 'paralelo') { ancho = 2.50; largo = 6.00; } // [cite: 1029]
+        }
+
+        // Lógica Ancho de Vía (Gráfico D) [cite: 1073]
+        let via = 6.00; // Default 90° doble sentido
+        if(angle == 0) via = 3.00; // Paralelo
+        else if(angle == 30) via = 3.00;
+        else if(angle == 45) via = 3.50;
+        else if(angle == 60) via = 4.00;
+        else if(angle == 90) via = 5.40; // Sentido único mínimo
+
+        // Renderizado
+        document.getElementById('res_pk_ancho').innerText = ancho.toFixed(2);
+        document.getElementById('res_pk_largo').innerText = largo.toFixed(2);
+        document.getElementById('res_pk_via').innerText = via.toFixed(2) + " m";
+
+        // Animación visual simple del cajón
+        const canvas = document.getElementById('pk_canvas');
+        // Rotación
+        canvas.style.transform = `rotate(-${90 - angle}deg)`;
+        // Proporción visual (scale width)
+        const scaleX = ancho / 2.5; 
+        canvas.style.width = `${scaleX * 160}px`; // base 160px
+    }
+
+    // Init
+    window.onload = function() {
+        calcStair();
+        calcPark();
+    };
+  </script>
+</body>
+</html>
